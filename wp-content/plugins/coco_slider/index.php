@@ -35,13 +35,15 @@ function afisare_slider(){
     $args = array(
         'posts_per_page' => 5,
         'post_type' => 'coco_slider',
+        'orderby' => 'id',
+        'order' => 'ASC',
     );
     
     $slides = get_posts($args);
     
     foreach($slides as $item){
         
-        the_title();
+        echo get_the_post_thumbnail_url($item->ID);
         
         echo '<br />';
         
@@ -52,3 +54,14 @@ function afisare_slider(){
 }
 
 add_shortcode('coco_slider','afisare_slider');
+
+function coco_style(){
+    wp_enqueue_style('coco-slider', plugin_dir_url( __FILE__ ).'css/lightslider.min.css' ,false);
+}
+
+function coco_script(){
+    wp_enqueue_script('coco-slider-js', plugin_dir_url( __FILE__ ).'js/lightslider.min.js', false);
+}
+
+add_action('wp_enqueue_scripts','coco_style');
+add_action('wp_enqueue_scripts','coco_script');
